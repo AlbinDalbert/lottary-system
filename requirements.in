@@ -1,0 +1,9 @@
+# Application
+Flask
+Flask-SQLAlchemy
+gunicorn
+email-validator
+
+# Testing
+pytest
+freezegun

@@ -18,12 +18,6 @@ Add a new entry to the lottery with a json object with a name and email address.
 Example:
 ```curl -X POST -H "Content-Type: application/json" -d '{"name":"Your Name", "email":"your.email@example.com"}' http://127.0.0.1:5000/register```
 
-On first launch of the app, you need to setup the database with this to make sure persistance between runs.
-This only needs to be done once per environment.
-```
-docker run --rm -v lottery-data:/app lottery-app python setup_db.py
-```
-
 ## Build and Run
 
 To build the app to a docker container.
