@@ -10,12 +10,26 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
 
-with app.app_context():
-    db.create_all()
-
 @app.route('/ping', methods=['GET'])
 def ping():
     return jsonify({"status": "ok", "message": "App is running"}), 200
+
+@app.route('/registrations', methods=['GET'])
+def get_registrations():
+    """Returns a JSON list of all registrations in the database."""
+    registrations = Registration.query.all()
+    
+    output = []
+    for reg in registrations:
+        reg_data = {
+            'id': reg.id,
+            'name': reg.name,
+            'email': reg.email,
+            'timestamp': reg.timestamp.isoformat()  # .isoformat() is a standard way to format dates in APIs
+        }
+        output.append(reg_data)
+        
+    return jsonify(output)
 
 @app.route('/register', methods=['POST'])
 def register():
