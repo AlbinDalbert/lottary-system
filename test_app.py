@@ -2,23 +2,28 @@
 
 import pytest
 from datetime import datetime
-from app import app, db
+from app import create_app, db
 from models import Registration, Winner
 from scheduler import select_winner
 from freezegun import freeze_time
 
 @pytest.fixture
-def client():
-    """Create a test client for the Flask application."""
-    app.config['TESTING'] = True
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///:memory:'
-    
-    with app.test_client() as client:
-        with app.app_context():
-            db.create_all()
-        yield client
-        with app.app_context():
-            db.drop_all()
+def app():
+    """Create and configure a new app instance for each test."""
+    app = create_app({
+        "TESTING": True,
+        "SQLALCHEMY_DATABASE_URI": "sqlite:///:memory:",
+    })
+
+    with app.app_context():
+        db.create_all()
+        yield app
+        db.drop_all()
+
+@pytest.fixture
+def client(app):
+    """A test client for the app."""
+    return app.test_client()
 
 def test_register_success(client):
     """Test successful user registration."""
@@ -94,25 +99,25 @@ def test_email_normalization(client):
     assert response.status_code == 400
     assert response.json['error'] == "Email already registered this month"
 
-def test_winner_selection(client):
+def test_winner_selection(client, app):
     """Test the winner selection logic."""
     client.post('/register', json={"name": "Alice", "email": "alice@example.com"})
     client.post('/register', json={"name": "Bob", "email": "bob@example.com"})
 
-    select_winner()
-
     with app.app_context():
+        select_winner(app)
         winner_count = Winner.query.count()
         assert winner_count == 1
 
-def test_no_participants_winner_selection(client, capsys):
+def test_no_participants_winner_selection(client, capsys, app):
     """Test winner selection with no participants."""
-    select_winner()
-    captured = capsys.readouterr()
-    assert "No valid participants found" in captured.out
+    with app.app_context():
+        select_winner(app)
+        captured = capsys.readouterr()
+        assert "No valid participants found" in captured.out
 
 @freeze_time("2025-09-05 16:00:00") # set mock time to september
-def test_winner_selection_with_only_outdated_participants(client):
+def test_winner_selection_with_only_outdated_participants(client, app):
     """
     Test that winner selection logic correctly isolates participants
     from the current, mocked month.
@@ -124,7 +129,7 @@ def test_winner_selection_with_only_outdated_participants(client):
         db.session.add_all([aug_user])
         db.session.commit()
 
-    select_winner()
+        select_winner(app)
 
     with app.app_context():
         assert Winner.query.count() == 0 

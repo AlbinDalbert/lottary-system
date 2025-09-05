@@ -41,5 +41,14 @@ jobs:
       - name: Wait for the application to start
         run: sleep 10
 
-      - name: Perform a smoke test
+      - name: Perform a smoke test ping
         run: curl --fail http://localhost:5000/ping
+
+      - name: Perform a smoke test registrations
+        run: curl --fail http://localhost:5000/registrations
+
+      - name: Perform a smoke test winners
+        run: curl --fail http://localhost:5000/winners
+
+      - name: Perform a smoke test logs
+        run: curl --fail http://localhost:5000/logs

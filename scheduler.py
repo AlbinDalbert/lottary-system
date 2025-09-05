@@ -6,11 +6,10 @@ from sqlalchemy import extract
 from app import app, db
 from models import Registration, Winner
 
-def select_winner():
+def select_winner(app):
     """
     Selects a random winner from the registrations of the current month.
     """
-    # Use the app context to access the database
     with app.app_context():
         now = datetime.now()
         current_month = now.month
