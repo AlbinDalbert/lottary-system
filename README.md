@@ -63,8 +63,8 @@ The second job tests the integration and dockerization, which builds the docker 
 ### Packaging
 This last job packages the applicaiton to a .tar file that can be executed with docker in the given environment. This job could be adapted to the needs of the deployment envirnment, but as no such environment exist here, packaging a .tar is deamed sufficiant.
 
-## Desicions
-The main technological desicion in this project was about data storage. And here it was decided that an SQLite database was the most fitting option as it provides the ergonomics of SQL and SQL tooling of expanded in the future. 
+## Decisions
+The main technological decision in this project was about data storage. And here it was decided that an SQLite database was the most fitting option as it provides the ergonomics of SQL and SQL tooling if expansions are being made in the future. 
 The central role timestamps play in how the different data is accessed makes SQL fitting. 
 Also, the data itself ha a very rigid framwork and is easy to fit in with tables and possible entries doesn't have any need for dynamic number of attributes/columns.
 
