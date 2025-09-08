@@ -2,10 +2,16 @@
 
 ## Endpoints
 ### /ping [GET]
-Just a ping to check if the service is up
+Just a ping to check if the service is up.
 
 ### /registrations [GET]
 Returns a json list of registrations currently stored in the database.
+
+### /winners [GET]
+Returns a list of the previous winners.
+
+### /logs [GET]
+Returns a json list of the logs ordered by time
 
 ### /register [POST]
 Add a new entry to the lottery with a json object with a name and email address.
