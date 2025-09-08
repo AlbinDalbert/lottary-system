@@ -25,6 +25,50 @@ def client(app):
     """A test client for the app."""
     return app.test_client()
 
+# test_endpoints.py
+from models import Registration, Winner, Log
+from scheduler import select_winner
+
+def test_get_registrations(client, app):
+    """
+    Tests the /registrations endpoint.
+    """
+    with app.app_context():
+        reg = Registration(name="Test User", email="test@example.com")
+        db.session.add(reg)
+        db.session.commit()
+
+    response = client.get('/registrations')
+
+    assert response.status_code == 200
+    assert response.json[0]['email'] == "test@example.com"
+
+def test_get_winners(client, app):
+    """
+    Tests the /winners endpoint.
+    """
+    with app.app_context():
+        reg = Registration(name="Winner User", email="winner@example.com")
+        db.session.add(reg)
+        db.session.commit()
+        select_winner(app)
+
+    response = client.get('/winners')
+
+    assert response.status_code == 200
+    assert response.json[0]['email'] == "winner@example.com"
+
+def test_get_logs(client, app):
+    """
+    Tests the /logs endpoint.
+    """
+    client.post('/register', json={"name": "Log User", "email": "log@example.com"})
+
+    response = client.get('/logs')
+
+    assert response.status_code == 200
+    assert 'action' in response.json[0]
+
 def test_register_success(client):
     """Test successful user registration."""
     response = client.post('/register', json={
@@ -134,3 +178,10 @@ def test_winner_selection_with_only_outdated_participants(client, app):
     with app.app_context():
         assert Winner.query.count() == 0 
 
+def test_register_invalid_email_format(client):
+    """Test registration fails with an invalid email format."""
+    response = client.post('/register', json={
+        "name": "Test User",
+        "email": "not-a-valid-email"
+    })
+    assert response.status_code == 400

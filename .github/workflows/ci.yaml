@@ -52,3 +52,24 @@ jobs:
 
       - name: Perform a smoke test logs
         run: curl --fail http://localhost:5000/logs
+
+  package:
+    needs: docker-test
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build the Docker image
+        run: docker build -t lottery-app .
+
+      - name: Save the Docker image to a .tar file
+        run: docker save lottery-app:latest -o lottery-app.tar
+
+      - name: Upload the Docker image as an artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: lottery-app-image
+          path: lottery-app.tar
+

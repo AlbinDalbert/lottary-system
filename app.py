@@ -36,8 +36,6 @@ def get_registrations():
 @main_bp.route('/winners', methods=['GET'])
 def get_winners():
     """Returns a JSON list of all winners in the database."""
-    page = request.args.get('page', 1, type=int)
-    per_page = request.args.get('per_page', 20, type=int)
 
     query = db.session.query(
         Winner.id,
@@ -45,20 +43,16 @@ def get_winners():
         Registration.name,
         Registration.email
     ).join(Registration, Winner.registration_id == Registration.id).order_by(Winner.selected_at.desc())
-    
-    if per_page == 0:
-        winners = query.all()
-    else:
-        offset = (page - 1) * per_page
-        winners = query.limit(per_page).offset(offset).all()
-    
+
+    winners = query.all()
+
     output = []
     for win in winners:
         win_data = {
-            'winner_id': winner.id,
-            'name': winner.name,
-            'email': winner.email,
-            'selected_at': winner.selected_at.isoformat()
+            'winner_id': win.id,
+            'name': win.name,
+            'email': win.email,
+            'selected_at': win.selected_at.isoformat()
         }
         output.append(win_data)
         
