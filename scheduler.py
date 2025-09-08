@@ -30,7 +30,7 @@ def select_winner(app):
         db.session.add(winner)
         db.session.commit()
 
-        print(f"🎉 Winner selected! Congratulations to {winner_registration.name} ({winner_registration.email})!")
+        print(f"Winner selected! Congratulations to {winner_registration.name} ({winner_registration.email})!")
 
 if __name__ == '__main__':
     select_winner()
