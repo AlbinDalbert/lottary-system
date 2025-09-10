@@ -31,7 +31,23 @@ Example:
 
 ## Build and Run
 **Prerequisite:** 
- - `Docker`.
+ - Python 3.12+
+ - pip 
+ - Docker
+
+Clone the repository and enter the directory.
+```
+git clone https://github.com/AlbinDalbert/simple-expense-tracker.git
+cd simple-expense-tracker
+```
+
+Create a virtual environment and intall the dependencies.
+```
+python3 -m venv venv
+source venv/bin/activate
+
+pip install -r requirements.txt
+```
 
 To build the app to a docker container.
 ```docker build -t lottery-app .```
@@ -44,9 +60,9 @@ The `-v`flag is used to specefy a persistent volume to make sure we don't loose 
 After that, you can reach the app on `127.0.0.1:5000`. and for quick test you can call `http://127.0.0.1:5000/ping` in the browser.
 
 The monthly winner selection would be executed by a scheduled job that is setup in the deployed environment (e.g. cron). And to select a winner it would run the following.
-´´´
+```
 docker run --rm -v lottery-data:/data lottery-app python scheduler.py
-´´´
+```
 Replace the container name and database mountpoint to the relevent names.
 
 ## CI/CD
@@ -70,4 +86,4 @@ Also, the data itself ha a very rigid framwork and is easy to fit in with tables
 
 Email validation was added to make sure the email at least syntactical possible for an email, the DNS validation was removed to allow for testing entries (e.g. exampl.com would be an invalid email domain other wise).
 
-An imporvment for the endpoints that can be emplemented is better handling of pageination and similar other filtering attributes to imporve the ergonomics, but it was out of the scope of this project to imporves these ergonomics of these endpoints. Though `/lgos`felt necessery as it grows the fastest of them all.
+An imporvment for the endpoints that can be emplemented is better handling of pageination and similar other filtering attributes to imporve the ergonomics, but it was out of the scope of this project to imporves these ergonomics of these endpoints. Though `/logs`felt necessery as it grows the fastest of them all.
