@@ -1,5 +1,3 @@
-# scheduler.py
-
 import random
 from datetime import datetime
 from sqlalchemy import extract

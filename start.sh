@@ -5,7 +5,6 @@ if [ "$(id -u)" = "0" ]; then
     chown -R app:app /data
     chmod -R 755 /data
     
-    # Switch to app user and re-run this script
     echo "Switching to app user..."
     exec gosu app "$0" "$@"
 fi

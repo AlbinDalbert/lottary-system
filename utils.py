@@ -22,11 +22,9 @@ def is_duplicate_email_this_month(email):
     print(f"Checking for email: {email}")
     print(f"Current month/year: {now.month}/{now.year}")
     
-    # Check all registrations first
     all_regs = db.session.query(Registration).all()
     print(f"All registrations in DB: {[(r.email, r.timestamp) for r in all_regs]}")
     
-    # Then check the filtered query
     result = db.session.query(Registration).filter(
         Registration.email == email,
         extract('month', Registration.timestamp) == now.month,

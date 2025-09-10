@@ -103,11 +103,9 @@ def test_register_input_validation(client):
     })
     assert response.status_code == 400
     
-    # Empty request
     response = client.post('/register', json={})
     assert response.status_code == 400
     
-    # Invalid json
     response = client.post('/register', data='{"name": "John", invalid}', content_type='application/json')
     assert response.status_code == 400
 

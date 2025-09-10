@@ -27,9 +27,13 @@ Add a new entry to the lottery with a json object with a name and email address.
 }
 ```
 Example:
-```curl -X POST -H "Content-Type: application/json" -d '{"name":"Your Name", "email":"your.email@example.com"}' http://127.0.0.1:5000/register```
+```
+curl -X POST -H "Content-Type: application/json" -d '{"name":"Your Name", "email":"your.email@example.com"}' http://127.0.0.1:5000/register
+```
 
 ## Build and Run
+*(these instructions are aimed for an linux environment)*
+
 **Prerequisite:** 
  - Python 3.12+
  - pip 
@@ -37,8 +41,8 @@ Example:
 
 Clone the repository and enter the directory.
 ```
-git clone https://github.com/AlbinDalbert/simple-expense-tracker.git
-cd simple-expense-tracker
+git clone https://github.com/AlbinDalbert/lottary-system.git
+cd loggary-system
 ```
 
 Create a virtual environment and intall the dependencies.
