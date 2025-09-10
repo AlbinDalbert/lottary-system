@@ -1,4 +1,4 @@
-# lottary-system
+# lottery-system
 
 ## Overview
 
@@ -41,8 +41,8 @@ curl -X POST -H "Content-Type: application/json" -d '{"name":"Your Name", "email
 
 Clone the repository and enter the directory.
 ```
-git clone https://github.com/AlbinDalbert/lottary-system.git
-cd loggary-system
+git clone https://github.com/AlbinDalbert/lottery-system.git
+cd loggery-system
 ```
 
 Create a virtual environment and intall the dependencies.
