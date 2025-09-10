@@ -1,5 +1,3 @@
-# test_app.py
-
 import pytest
 from datetime import datetime
 from app import create_app, db
@@ -25,7 +23,7 @@ def client(app):
     """A test client for the app."""
     return app.test_client()
 
-# test_endpoints.py
+
 from models import Registration, Winner, Log
 from scheduler import select_winner
 

@@ -5,20 +5,20 @@
 A backend application for running a monthly lottary. It has been built using Flask and SQlite using Docker as a deployment environment. 
 
 ## Endpoints
-### /ping [GET]
+### [GET] /ping 
 Just a ping to check if the service is up.
 
-### /registrations [GET]
+### [GET] /registrations
 Returns a json list of registrations currently stored in the database.
 
-### /winners [GET]
+### [GET] /winners
 Returns a list of the previous winners.
 
-### /logs [GET]
+### [GET] /logs
 Returns a json list of the logs ordered by time. This endpoint also supports pageination.
 accept the query parameters `?page=<number>` and `?per_page=<number>` to control the output. Use `?per_page=0` to retrieve all records.
 
-### /register [POST]
+### [POST] /register
 Add a new entry to the lottery with a json object with a name and email address.
 ```json
 {
